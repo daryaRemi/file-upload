@@ -1,0 +1,23 @@
+{
+  "name": "file-upload",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daryaRemi/file-upload.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daryaRemi/file-upload/issues"
+  },
+  "homepage": "https://github.com/daryaRemi/file-upload#readme",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
+}
