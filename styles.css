@@ -133,3 +133,14 @@ input[type="file"] {
   text-align: right;
   max-width: 25%;
 }
+
+.preview-info-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: darkslategrey;
+  text-align: center;
+  transition: width .22s;
+  width: 30%;
+}

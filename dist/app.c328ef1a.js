@@ -168,9 +168,14 @@ var element = function element(tag) {
   return node;
 };
 
+var noop = function noop() {};
+
 function upload(selector) {
+  var _options$onUpload;
+
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var files = [];
+  var onUpload = (_options$onUpload = options.onUpload) !== null && _options$onUpload !== void 0 ? _options$onUpload : noop;
   var input = document.querySelector(selector);
   var preview = element('div', ['preview']);
   var open = element('button', ['btn'], 'Открыть');
@@ -245,13 +250,25 @@ function upload(selector) {
     }, 300);
   };
 
-  var uploadHandler = function uploadHandler() {};
+  var clearPreview = function clearPreview(el) {
+    el.style.bottom = '0';
+    el.innerHTML = '<div class="preview-info-progress"></div>';
+  };
+
+  var uploadHandler = function uploadHandler() {
+    preview.querySelectorAll('.preview-remove').forEach(function (e) {
+      return e.remove();
+    });
+    var previewInfo = preview.querySelectorAll('.preview-info');
+    previewInfo.forEach(clearPreview);
+    onUpload(files);
+  };
 
   open.addEventListener('click', triggerInput);
   input.addEventListener('change', changeHandler);
   preview.addEventListener('click', removeHandler);
   upload.addEventListener('click', uploadHandler);
-}
+} // написать на node.js сервер, который будет принимать эти данные и по веб-сокету отдавать результат и значения
 },{}],"app.js":[function(require,module,exports) {
 "use strict";
 
@@ -259,7 +276,10 @@ var _upload = require("./upload");
 
 (0, _upload.upload)('#file', {
   multi: true,
-  accept: ['.png', '.jpg', '.jpeg', '.gif']
+  accept: ['.png', '.jpg', '.jpeg', '.gif'],
+  onUpload: function onUpload(files) {
+    console.log('Files:', files);
+  }
 });
 console.log('app.js');
 },{"./upload":"upload.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {

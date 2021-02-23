@@ -23,8 +23,11 @@ const element = (tag, classes = [], content) => {
   return node
 }
 
+const noop = function () {}
+
 export function upload(selector, options = {}) {
   let files = [];
+  const onUpload = options.onUpload ?? noop
   const input = document.querySelector(selector);
   const preview = element('div', ['preview'])
   const open = element('button', ['btn'], 'Открыть')
@@ -104,8 +107,16 @@ export function upload(selector, options = {}) {
     setTimeout(() => block.remove(), 300)
   };
 
-  const uploadHandler = () => {
+  const clearPreview = el => {
+    el.style.bottom = '0'
+    el.innerHTML = '<div class="preview-info-progress"></div>'
+  }
 
+  const uploadHandler = () => {
+    preview.querySelectorAll('.preview-remove').forEach(e => e.remove())
+    const previewInfo = preview.querySelectorAll('.preview-info')
+    previewInfo.forEach(clearPreview)
+    onUpload(files)
   }
 
   open.addEventListener('click', triggerInput);
@@ -113,3 +124,5 @@ export function upload(selector, options = {}) {
   preview.addEventListener('click', removeHandler);
   upload.addEventListener('click', uploadHandler);
 }
+
+// написать на node.js сервер, который будет принимать эти данные и по веб-сокету отдавать результат и значения
